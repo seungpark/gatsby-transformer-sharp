@@ -26,8 +26,13 @@ module.exports.onCreateNode = async function onCreateNode({
   console.log('calling createNode and createParentChildLink');
   console.log(`imageNode: ${JSON.stringify({id: imageNode.id, internal: imageNode.internal})}`);
   console.log(`parentNode: ${JSON.stringify({id: node.id, internal: node.internal})}`);
-  createNode(imageNode)
-  createParentChildLink({ parent: node, child: imageNode })
+  try {
+    await createNode(imageNode)
+    await createParentChildLink({ parent: node, child: imageNode })
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
 
   return
 }
